@@ -1,10 +1,12 @@
+// client/src/components/SpendProfileForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Card, CardContent, Typography, TextField, Button, Box, Alert } from '@mui/material';
 
 export default function SpendProfileForm({ onResult }) {
-  const [travel, setTravel] = useState(0);
-  const [dining, setDining] = useState(0);
-  const [other, setOther] = useState(0);
+  const [travel, setTravel] = useState('');
+  const [dining, setDining] = useState('');
+  const [other, setOther] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -13,58 +15,57 @@ export default function SpendProfileForm({ onResult }) {
     setLoading(true);
     setError('');
     try {
-      const res = await axios.post('http://localhost:4000/api/spend-profile', {
+      const { data } = await axios.post('http://localhost:4000/api/spend-profile', {
         travel: Number(travel),
         dining: Number(dining),
         other: Number(other),
       });
-      onResult(res.data);
-    } catch (err) {
-      setError('Something went wrong. Check console.');
-      console.error(err);
+      onResult(data);
+    } catch {
+      setError('Server error. Try again.');
     }
     setLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: 400, margin: 'auto' }}>
-      <h2>Enter Your Monthly Spend</h2>
+    <Box display="flex" justifyContent="center" mt={5}>
+      <Card sx={{ width: 400 }}>
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
+            Monthly Spend Profile
+          </Typography>
 
-      <label>
-        Travel ($):
-        <input
-          type="number"
-          value={travel}
-          onChange={(e) => setTravel(e.target.value)}
-          min="0"
-        />
-      </label>
+          <Box component="form" onSubmit={handleSubmit} display="flex" flexDirection="column" gap={2}>
+            <TextField
+              label="Travel ($)"
+              type="number"
+              value={travel}
+              onChange={e => setTravel(e.target.value)}
+              required
+            />
+            <TextField
+              label="Dining ($)"
+              type="number"
+              value={dining}
+              onChange={e => setDining(e.target.value)}
+              required
+            />
+            <TextField
+              label="Other ($)"
+              type="number"
+              value={other}
+              onChange={e => setOther(e.target.value)}
+              required
+            />
 
-      <label>
-        Dining ($):
-        <input
-          type="number"
-          value={dining}
-          onChange={(e) => setDining(e.target.value)}
-          min="0"
-        />
-      </label>
+            {error && <Alert severity="error">{error}</Alert>}
 
-      <label>
-        Other ($):
-        <input
-          type="number"
-          value={other}
-          onChange={(e) => setOther(e.target.value)}
-          min="0"
-        />
-      </label>
-
-      <button type="submit" disabled={loading}>
-        {loading ? 'calculating…' : 'get recommendation'}
-      </button>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </form>
+            <Button type="submit" variant="contained" color="secondary" disabled={loading}>
+              {loading ? 'Calculating…' : 'Get Recommendation'}
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }

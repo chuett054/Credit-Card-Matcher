@@ -1,15 +1,17 @@
-// Placeholder: Graham to Replace Weight
+// server/scoring.js
 function computeScore(card, spend) {
-    // example weights—finance to refine:
-    const wTravel = 3;
-    const wDining = 2;
-    const penaltyAPR = card.apr > 20 ? -1 : 0;
+    // use final finance weights here
+    const wTravel = 3, wDining = 2, wOther = 1;
+    const penalty = card.apr > 20 ? spend.travel * 0.01 : 0; // example
   
-    const travelEarn = spend.travel * (card.travelRate || 0) * wTravel;
-    const diningEarn = spend.dining * (card.diningRate || 0) * wDining;
-    const otherEarn = spend.other * (card.otherRate || 0);
+    const rewards =
+      spend.travel * card.travelRate * wTravel +
+      spend.dining * card.diningRate * wDining +
+      spend.other * card.otherRate * wOther;
   
-    return travelEarn + diningEarn + otherEarn + penaltyAPR;
+    const cost = spend.travel * (card.apr / 100 / 12) + penalty;
+    const netBenefit = rewards - cost;
+  
+    return { rewards, cost, netBenefit };
   }
-  
   module.exports = { computeScore };
