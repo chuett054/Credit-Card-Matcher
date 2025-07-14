@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Card, CardContent, Typography, TextField, Button, Box, Alert } from '@mui/material';
 
+// Set your Render API base URL (no trailing slash)
+const API_BASE = 'https://credit-card-matcher.onrender.com';
+
 export default function SpendProfileForm({ onResult }) {
   const [travel, setTravel] = useState('');
   const [dining, setDining] = useState('');
@@ -15,13 +18,17 @@ export default function SpendProfileForm({ onResult }) {
     setLoading(true);
     setError('');
     try {
-      const { data } = await axios.post('https://credit-card-matcher.onrender.com', {
-        travel: Number(travel),
-        dining: Number(dining),
-        other: Number(other),
-      });
+      const { data } = await axios.post(
+        `${API_BASE}/api/spend-profile`,
+        {
+          travel: Number(travel),
+          dining: Number(dining),
+          other: Number(other),
+        }
+      );
       onResult(data);
-    } catch {
+    } catch (err) {
+      console.error('API error:', err.response || err.message);
       setError('Server error. Try again.');
     }
     setLoading(false);
