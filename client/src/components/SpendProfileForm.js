@@ -15,7 +15,7 @@ export default function SpendProfileForm({ onResult }) {
     setLoading(true);
     setError('');
     try {
-      const { data } = await axios.post('http://localhost:4000/api/spend-profile', {
+      const { data } = await axios.post('https://credit-card-matcher.onrender.com', {
         travel: Number(travel),
         dining: Number(dining),
         other: Number(other),
