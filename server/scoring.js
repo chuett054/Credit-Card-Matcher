@@ -1,17 +1,39 @@
 // server/scoring.js
+
+/**
+ * computeScore(card, spend):
+ *  - spend: { travel: $, dining: $, other: $ }
+ *  - returns { rewards, cost, netBenefit }
+ */
 function computeScore(card, spend) {
-    // use final finance weights here
-    const wTravel = 3, wDining = 2, wOther = 1;
-    const penalty = card.apr > 20 ? spend.travel * 0.01 : 0; // example
+    const { travelRate, diningRate, otherRate, aprLow, aprHigh, annualFee = 0, introBonus = 0, introSpendReq = Infinity } = card;
   
+    // 1) Rewards: simple annualized points/cash
     const rewards =
-      spend.travel * card.travelRate * wTravel +
-      spend.dining * card.diningRate * wDining +
-      spend.other * card.otherRate * wOther;
+      spend.travel * travelRate +
+      spend.dining * diningRate +
+      spend.other * otherRate;
   
-    const cost = spend.travel * (card.apr / 100 / 12) + penalty;
-    const netBenefit = rewards - cost;
+    // 2) APR cost: assume they revolve balance equal to monthly spend (avg over year)
+    //    Use average of aprLow and aprHigh if both exist, else single value
+    let apr = aprLow;
+    if (aprHigh != null && aprLow != null) apr = (aprLow + aprHigh) / 2;
+    // monthly rate
+    const monthlyRate = apr ? apr / 100 / 12 : 0;
+    const avgBalance = (spend.travel + spend.dining + spend.other) / 2; // rough avg
+    const interestCost = avgBalance * monthlyRate * 12;
+  
+    // 3) Intro bonus amortization: if they hit the spend req within 3mo, count bonus
+    //    Convert bonus into annualized amount: assume they spend exactly requirement
+    const bonusValue = introBonus > 0 && spend.travel + spend.dining + spend.other >= introSpendReq
+      ? introBonus
+      : 0;
+  
+    // 4) Net benefit = rewards + bonusYear1 − cost − annual fee
+    const cost = interestCost + annualFee;
+    const netBenefit = rewards + bonusValue - cost;
   
     return { rewards, cost, netBenefit };
   }
+  
   module.exports = { computeScore };

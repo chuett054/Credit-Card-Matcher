@@ -1,18 +1,60 @@
 [
     {
-      "name": "Chase Sapphire Reserve",
-      "logoUrl": "https://example.com/sapphire-reserve.png",
-      "travelRate": 0.03,
-      "diningRate": 0.03,
-      "otherRate": 0.01,
-      "apr": 19.99
-    },
-    {
       "name": "Capital One Venture",
       "logoUrl": "https://example.com/venture.png",
-      "travelRate": 0.02,
-      "diningRate": 0.01,
+      "travelRate": 0.05,         
+      "diningRate": 0.02,         
+      "otherRate": 0.02,
+      "aprLow": 19.99,
+      "aprHigh": 29.24,
+      "annualFee": 95,
+      "introBonus": 0             
+    },
+    {
+      "name": "Capital One Quicksilver",
+      "logoUrl": "https://example.com/quicksilver.png",
+      "travelRate": 0.05,         
+      "diningRate": 0.01,        
       "otherRate": 0.01,
-      "apr": 23.74
+      "aprLow": 19.99,
+      "aprHigh": 29.99,
+      "annualFee": 0,
+      "introBonus": 200,          
+      "introSpendReq": 500        
+    },
+    {
+      "name": "Capital One Savor",
+      "logoUrl": "https://ecm.capitalone.com/WCM/learn-grow/card/cta_venture_648x432.png",
+      "travelRate": 0.05,         
+      "diningRate": 0.03,         
+      "otherRate": 0.01,
+      "aprLow": 19.24,
+      "aprHigh": 29.24,
+      "annualFee": 0,
+      "introBonus": 200,
+      "introSpendReq": 500
+    },
+    {
+      "name": "Capital One Platinum Secured",
+      "logoUrl": "https://example.com/platinum-secured.png",
+      "travelRate": 0.00,
+      "diningRate": 0.00,
+      "otherRate": 0.00,
+      "aprLow": 29.74,
+      "aprHigh": 29.74,
+      "annualFee": 0,
+      "minimumDeposit": 200,
+      "introBonus": 0
+    },
+    {
+      "name": "Capital One Spark 2% Cash Plus (Business)",
+      "logoUrl": "https://example.com/spark-2.png",
+      "travelRate": 0.00,
+      "diningRate": 0.00,
+      "otherRate": 0.02,          
+      "aprLow": null,             
+      "aprHigh": null,
+      "annualFee": 150,
+      "introBonus": 0
     }
   ]
