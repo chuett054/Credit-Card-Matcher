@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, Typography, Box, Button } from '@mui/material';
 
 export default function ResultPage({ data, onReset }) {
-  const { name, logoUrl, rewards, cost, netBenefit } = data;
+  const { name, logoUrl, rewards, cost, netBenefit, summary } = data;
 
   return (
     <Box display="flex" justifyContent="center" mt={5}>
@@ -20,6 +20,12 @@ export default function ResultPage({ data, onReset }) {
             <Typography>APR Cost: −${cost.toFixed(2)} / yr</Typography>
             <Typography variant="h6" mt={1}>Net Benefit: ${netBenefit.toFixed(2)} / yr</Typography>
           </Box>
+
+          {summary && (
+            <Box mt={3} px={2}>
+              <Typography variant="body1">{summary}</Typography>
+            </Box>
+          )}
 
           <Button variant="outlined" color="secondary" onClick={onReset} sx={{ mt: 3 }}>
             Try Different Profile
