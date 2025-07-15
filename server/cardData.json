@@ -1,7 +1,7 @@
 [
     {
       "name": "Capital One Venture",
-      "logoUrl": "https://example.com/venture.png",
+      "logoUrl": "https://ecm.capitalone.com/WCM/learn-grow/card/cta_venture_648x432.png",
       "travelRate": 0.05,         
       "diningRate": 0.02,         
       "otherRate": 0.02,
@@ -12,7 +12,7 @@
     },
     {
       "name": "Capital One Quicksilver",
-      "logoUrl": "https://example.com/quicksilver.png",
+      "logoUrl": "https://ecm.capitalone.com/WCM/card/products/qs_cardart_prim_1290x812.png",
       "travelRate": 0.05,         
       "diningRate": 0.01,        
       "otherRate": 0.01,
@@ -24,7 +24,7 @@
     },
     {
       "name": "Capital One Savor",
-      "logoUrl": "https://ecm.capitalone.com/WCM/learn-grow/card/cta_venture_648x432.png",
+      "logoUrl": "https://ecm.capitalone.com/WCM/card/products/new-savor-card-art/mobile.png",
       "travelRate": 0.05,         
       "diningRate": 0.03,         
       "otherRate": 0.01,
@@ -36,7 +36,7 @@
     },
     {
       "name": "Capital One Platinum Secured",
-      "logoUrl": "https://example.com/platinum-secured.png",
+      "logoUrl": "https://ecm.capitalone.com/WCM/card/products/plat_cardart_prim_323x203/mobile.png",
       "travelRate": 0.00,
       "diningRate": 0.00,
       "otherRate": 0.00,
@@ -48,7 +48,7 @@
     },
     {
       "name": "Capital One Spark 2% Cash Plus (Business)",
-      "logoUrl": "https://example.com/spark-2.png",
+      "logoUrl": "https://ecm.capitalone.com/WCM/card/products/spark-cash_lto_large.png",
       "travelRate": 0.00,
       "diningRate": 0.00,
       "otherRate": 0.02,          

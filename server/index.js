@@ -8,9 +8,7 @@ const { computeScore } = require('./scoring');
 
 // 2. Create & configure the app
 const app = express();
-
-// Configure CORS to allow only your frontend
-app.use(cors({ origin: 'https://credit-card-matcher.vercel.app' }));
+app.use(cors({ origin: ['http://localhost:3000', 'https://credit-card-matcher.vercel.app'] }));
 app.use(express.json());
 
 // 3. Health-check route
@@ -28,7 +26,23 @@ app.post('/api/spend-profile', (req, res) => {
   });
 
   const best = scored.reduce((a, b) => (b.netBenefit > a.netBenefit ? b : a));
-  res.json(best);
+
+  // Determine top spend category for summary
+  const spends = { travel, dining, other };
+  const topCategory = Object.keys(spends).reduce((a, b) => (spends[a] > spends[b] ? a : b));
+  const rateMap = {
+    travel: best.travelRate,
+    dining: best.diningRate,
+    other: best.otherRate
+  };
+  const ratePercent = rateMap[topCategory] * 100;
+
+  const summary = `Based on your highest spend in ${topCategory} ($${spends[topCategory]}), ` +
+                  `${best.name} is recommended as it offers ${ratePercent}% back on ${topCategory}, ` +
+                  `netting you approximately $${best.rewards.toFixed(2)} rewards annually while ` +
+                  `minimizing costs.`;
+
+  res.json({ ...best, summary });
 });
 
 // 5. Start the server
