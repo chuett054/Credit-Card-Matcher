@@ -1,35 +1,34 @@
-// server/index.js
+// client/src/index.js
 
-// 1. Imports
-const express = require('express');
-const cors = require('cors');
-const cardData = require('./cardData.json');
-const { computeScore } = require('./scoring');
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import App from './App';
 
-// 2. Create & configure the app
-const app = express();
-app.use(cors({ origin: 'https://credit-card-matcher.vercel.app' }));
-app.use(express.json());
-
-// 3. Health-check route (optional)
-app.get('/', (_req, res) => {
-  res.send('✅ Credit Card Matcher API is running');
+// 1. Define your custom MUI theme
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: { main: '#0A1F44' },    // deep navy
+    secondary: { main: '#2ECC71' },  // mint green
+    background: { default: '#F4F7FA' }, // soft off-white
+  },
+  typography: {
+    fontFamily: '"Inter", sans-serif',
+    h2: { fontWeight: 600 },
+    button: { textTransform: 'none' },
+  },
 });
 
-// 4. API endpoint
-app.post('/api/spend-profile', (req, res) => {
-  const { travel = 0, dining = 0, other = 0 } = req.body;
+// 2. Mount the React app using React 18 createRoot API
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
 
-  const scored = cardData.map(card => {
-    const { rewards, cost, netBenefit } = computeScore(card, { travel, dining, other });
-    return { ...card, rewards, cost, netBenefit };
-  });
-
-  const best = scored.reduce((a, b) => (b.netBenefit > a.netBenefit ? b : a));
-  res.json(best);
-});
-
-// 5. Start the server
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`API listening on port ${PORT}`));
+root.render(
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>
+);
 
